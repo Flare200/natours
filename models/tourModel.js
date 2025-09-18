@@ -171,8 +171,6 @@ tourSchema.pre(/^find/, function(next) {
 
 tourSchema.post(/^find/, function(docs, next) {
   const duration = Date.now() - this.start; // Calculate the duration of the query
-  // console.log(`Query executed in ${duration} ms:`, docs);
-  console.log(`Query executed in ${duration} ms`);
   next();
 });
 

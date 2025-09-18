@@ -7,6 +7,7 @@ import mongoSanitize from 'express-mongo-sanitize';
 import xss from 'xss-clean'
 import hpp from 'hpp';
 import cookieParser from 'cookie-parser';
+import compression from 'compression';
 
 import tourRouter from './routes/tourRoutes.js';
 import userRouter from './routes/userRoutes.js';
@@ -85,13 +86,15 @@ app.use(
   }),
 );
 
+// Compress all text sent to client
+app.use(compression());
+
 // Parse advanced query strings
 app.set('query parser', 'extended');
 
 // Test middleware
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
-  // console.log(req.cookies);
   next();
 });
 
