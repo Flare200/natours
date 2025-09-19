@@ -23,6 +23,9 @@ dotenv.config({path: './config.env'});
 const __dirname = new URL('.', import.meta.url).pathname;
 
 const app = express();
+
+app.enable('trust proxy');
+
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
