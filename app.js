@@ -14,6 +14,7 @@ import tourRouter from './routes/tourRoutes.js';
 import userRouter from './routes/userRoutes.js';
 import reviewRouter from './routes/reviewRoutes.js';
 import bookingRouter from './routes/bookingRoutes.js';
+import { webhookCheckout } from './controllers/bookingController.js';
 import viewRouter from './routes/viewRoutes.js';
 import globalErrorHandler from './controllers/errorController.js';
 import AppError from './utils/appError.js';
@@ -50,9 +51,13 @@ if (process.env.NODE_ENV === 'development') {
 const limiter = rateLimit({
   max: 100,
   windowMs: 60 * 60 * 1000,
-  message: 'Too many requests from this IP, please try again in an hour'
+  message: 'Too many requests from this IP, please try again in an hour',
+  validate: { trustProxy: false },
 });
 app.use('/api', limiter);
+
+// Stripe webhook, before body parser, because stripe needs the body as a stream
+app.post('/webhook-checkout', express.raw({type: 'application/json'}), webhookCheckout);
 
 // Body parser, reading data from the body into req.body
 app.use(express.json({
