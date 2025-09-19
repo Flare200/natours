@@ -2,6 +2,7 @@ import '@babel/polyfill';
 import { login, logout } from './login.js';
 import { updateSettings } from './updateSettings.js';
 import { bookTour } from './stripe.js';
+import { showAlert } from './alerts.js';
 
 const loginForm = document.querySelector('.form--login');
 const logoutBtn = document.querySelector('.nav__el--logout');
@@ -58,3 +59,6 @@ if(bookBtn) {
     bookTour(tourId);
   });
 }
+
+const alertMessage = document.querySelector('body').dataset.alert;
+if(alertMessage) showAlert('success', alertMessage, 20);

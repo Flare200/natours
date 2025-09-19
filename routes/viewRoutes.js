@@ -1,9 +1,11 @@
 import express from "express";
-import { getOverview, getTour, getLoginForm, getAccount, updateUserData, getMyTours } from "../controllers/viewsController.js";
+import { getOverview, getTour, getLoginForm, getAccount, updateUserData, getMyTours, alerts } from "../controllers/viewsController.js";
 import { isLoggedIn } from "../controllers/authController.js";
 import { protect } from "../controllers/authController.js";
 
 const router = express.Router();
+
+router.use(alerts);
 
 router.get('/', isLoggedIn, getOverview);
 router.get('/tour/:slug', isLoggedIn, getTour);
